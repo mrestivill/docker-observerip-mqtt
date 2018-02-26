@@ -6,7 +6,7 @@ Scrapps the web of observer ip and publishes changes on mqtt
 # Buils
 
 ```
-docker build -t glarfs/observerip-mqtt
+docker build -t glarfs/observerip-mqtt .
 ```
 
 # Run
