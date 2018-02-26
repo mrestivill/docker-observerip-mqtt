@@ -4,6 +4,8 @@ from lxml import html
 import math, time, syslog, requests
 import paho.mqtt.client as paho 
 import paho.mqtt.publish as publish
+import os
+import time
 #import mosquitto 
 
 broker=os.getenv('OBSERVER_MQTT_HOST', '192.168.1.1')
@@ -11,13 +13,22 @@ port=os.getenv('OBSERVER_MQTT_PORT','1883')
 entrypoint=os.getenv('OBSERVER_MQTT_ENTRYPOINT',"/test/meteo")
 clientID=os.getenv('OBSERVER_MQTT_CLIENTID','observer')
 observerIP=os.getenv('OBSERVER_HOST','192.168.1.10')
+observerWait=float(os.getenv('OBSERVER_SLEEP','10'))
+
+print("initial configuration:")
+#print("mqtt %s:%s%s" % [ broker, port, entrypoint])
 
 #client = mosquitto.Mosquitto("observer")
 client = paho.Client(clientID)
-if True: 
-#try:
-  page = requests.get('http://%(host)/livedata.htm'%{"host": observerIP})
-  tree = html.fromstring(page.content)
+while True: 
+  url="http://%s/livedata.htm"% observerIP
+  try:
+    page = requests.get(url)
+    tree = html.fromstring(page.content)
+    print("Connected from: '%s'" % url)
+  except Exception as e:
+    print("ObserverIP driver couldn't access the livedata.htm webpage: '%s'" % url)
+    print("Error caught was: %s" % e)
   
   # Can weewx take this value?
   uvi = tree.xpath('//input[@name="uvi"]')[0].value
@@ -38,6 +49,8 @@ if True:
   dailyRainAccum = tree.xpath('//input[@name="rainofdaily"]')[0].value
   #print inBattery, outBattery, uvi, inTemp, inHumid, outTemp, outHumid, absPressure, relPressure, windDir, windSpeed, windGust, solarRadiation, uv, dailyRainAccum
   client.connect(broker,port)
+  print("Readed from '%s'" % url)
+  print("mqtt connected")
   client.publish( "{0}/status".format(entrypoint),payload="1")
   client.publish( "{0}/solar/uvi".format(entrypoint),payload=uvi , retain=True)
   client.publish( "{0}/in/battery".format(entrypoint),payload=inBattery, retain=True)
@@ -55,7 +68,11 @@ if True:
   client.publish( "{0}/solar/uv".format(entrypoint),payload=uv, retain=True)
   client.publish( "{0}/rain/houry".format(entrypoint),payload=hourlyRain,retain=True)
   client.publish( "{0}/rain/daily".format(entrypoint),payload=dailyRainAccum,retain=True)
-
+  print("mqtt published")
+  print("sleep %s" % observerWait)
+  # sleep time
+  time.sleep(observerWait)
+  
 
 
 #except Exception as e:
