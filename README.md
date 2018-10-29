@@ -3,7 +3,7 @@
 Scrapps the web of observer ip and publishes changes on mqtt
 
 
-# Buils
+# Build
 
 ```
 docker build -t glarfs/observerip-mqtt .
@@ -17,3 +17,8 @@ docker run -e OBSERVER_MQTT_HOST=x.x.x.x -e OBSERVER_MQTT_PORT=1883 -e OBSERVER_
 ```
 
 
+# Test
+
+```
+
+```
