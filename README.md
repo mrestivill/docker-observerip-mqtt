@@ -20,5 +20,5 @@ docker run -e OBSERVER_MQTT_HOST=x.x.x.x -e OBSERVER_MQTT_PORT=1883 -e OBSERVER_
 # Test
 
 ```
-
+mosquitto_sub -v -h x.x.x.x -t /my/meteo/#
 ```
