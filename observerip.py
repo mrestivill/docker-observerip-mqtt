@@ -47,7 +47,7 @@ while True:
   uv = tree.xpath('//input[@name="uv"]')[0].value
   hourlyRain = tree.xpath('//input[@name="rainofhourly"]')[0].value
   dailyRainAccum = tree.xpath('//input[@name="rainofdaily"]')[0].value
-  #print inBattery, outBattery, uvi, inTemp, inHumid, outTemp, outHumid, absPressure, relPressure, windDir, windSpeed, windGust, solarRadiation, uv, dailyRainAccum
+  print inBattery, outBattery, uvi, inTemp, inHumid, outTemp, outHumid, absPressure, relPressure, windDir, windSpeed, windGust, solarRadiation, uv, dailyRainAccum
   client.connect(broker,port)
   print("Readed from '%s'" % url)
   print("mqtt connected")
