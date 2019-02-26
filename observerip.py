@@ -20,7 +20,9 @@ print("initial configuration:")
 
 #client = mosquitto.Mosquitto("observer")
 client = paho.Client(clientID)
-while True: 
+c = True
+while c: 
+  c = False
   url="http://%s/livedata.htm"% observerIP
   try:
     page = requests.get(url)
