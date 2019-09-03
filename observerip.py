@@ -53,7 +53,6 @@ while c:
   print inBattery, outBattery, uvi, inTemp, inHumid, outTemp, outHumid, absPressure, relPressure, windDir, windSpeed, windGust, solarRadiation, uv, dailyRainAccum
   try
     client.connect(broker,port)
-    print("Readed from '%s'" % url)
     print("mqtt connected")
   except Exception as e:
     print("ObserverIP driver couldn't access mqtt server : '%s'" % broker)
