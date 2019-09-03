@@ -29,6 +29,7 @@ while True:
   except Exception as e:
     print("ObserverIP driver couldn't access the livedata.htm webpage: '%s'" % url)
     print("Error caught was: %s" % e)
+    raise
   
   # Can weewx take this value?
   uvi = tree.xpath('//input[@name="uvi"]')[0].value
