@@ -51,9 +51,14 @@ while c:
   hourlyRain = tree.xpath('//input[@name="rainofhourly"]')[0].value
   dailyRainAccum = tree.xpath('//input[@name="rainofdaily"]')[0].value
   print inBattery, outBattery, uvi, inTemp, inHumid, outTemp, outHumid, absPressure, relPressure, windDir, windSpeed, windGust, solarRadiation, uv, dailyRainAccum
-  client.connect(broker,port)
-  print("Readed from '%s'" % url)
-  print("mqtt connected")
+  try
+    client.connect(broker,port)
+    print("Readed from '%s'" % url)
+    print("mqtt connected")
+  except Exception as e:
+    print("ObserverIP driver couldn't access mqtt server : '%s'" % broker)
+    print("Error caught was: %s" % e)
+    raise
   client.publish( "{0}/status".format(entrypoint),payload="1")
   client.publish( "{0}/solar/uvi".format(entrypoint),payload=uvi , retain=True)
   client.publish( "{0}/in/battery".format(entrypoint),payload=inBattery, retain=True)
