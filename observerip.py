@@ -20,7 +20,9 @@ print("initial configuration:")
 
 #client = mosquitto.Mosquitto("observer")
 client = paho.Client(clientID)
-while True: 
+c = True
+while c: 
+  c = False
   url="http://%s/livedata.htm"% observerIP
   try:
     page = requests.get(url)
@@ -48,7 +50,7 @@ while True:
   uv = tree.xpath('//input[@name="uv"]')[0].value
   hourlyRain = tree.xpath('//input[@name="rainofhourly"]')[0].value
   dailyRainAccum = tree.xpath('//input[@name="rainofdaily"]')[0].value
-  #print inBattery, outBattery, uvi, inTemp, inHumid, outTemp, outHumid, absPressure, relPressure, windDir, windSpeed, windGust, solarRadiation, uv, dailyRainAccum
+  print inBattery, outBattery, uvi, inTemp, inHumid, outTemp, outHumid, absPressure, relPressure, windDir, windSpeed, windGust, solarRadiation, uv, dailyRainAccum
   client.connect(broker,port)
   print("Readed from '%s'" % url)
   print("mqtt connected")
@@ -69,6 +71,28 @@ while True:
   client.publish( "{0}/solar/uv".format(entrypoint),payload=uv, retain=True)
   client.publish( "{0}/rain/houry".format(entrypoint),payload=hourlyRain,retain=True)
   client.publish( "{0}/rain/daily".format(entrypoint),payload=dailyRainAccum,retain=True)
+  # WeeWx Mqtt
+  client.publish( "{0}/inTemp_C".format(entrypoint),payload=inTemp, retain=True)
+  client.publish( "{0}/inHumidity".format(entrypoint),payload=inHumid, retain=True)  
+  client.publish( "{0}/outTemp_C".format(entrypoint),payload=outTemp,retain=True)
+  client.publish( "{0}/outHumidity".format(entrypoint),payload=outHumid, retain=True)
+  client.publish( "{0}/windSpeed_kph".format(entrypoint),payload=windSpeed, retain=True)
+  client.publish( "{0}/windDir".format(entrypoint),payload=windDir, retain=True)
+  client.publish( "{0}/windGust_kph".format(entrypoint),payload=windGust, retain=True)  
+  client.publish( "{0}/radiation_Wpm2".format(entrypoint),payload=solarRadiation, retain=True)
+  client.publish( "{0}/UV".format(entrypoint),payload=uv, retain=True)
+  client.publish( "{0}/rainRate_cm_per_hour".format(entrypoint),payload=hourlyRain,retain=True)
+  client.publish( "{0}/dayRain_cm".format(entrypoint),payload=dailyRainAccum,retain=True)
+  client.publish( "{0}/pressure_mbar".format(entrypoint),payload=absPressure, retain=True)
+  client.publish( "{0}/altimeter_mbar".format(entrypoint),payload=relPressure, retain=True)
+  client.publish( "{0}/illuminance".format(entrypoint),payload=uvi , retain=True)  
+  client.publish( "{0}/outBatteryStatus".format(entrypoint),payload=outBattery, retain=True) 
+  client.publish( "{0}/inBatteryStatus".format(entrypoint),payload=inBattery, retain=True)
+  
+
+  
+ 
+  
   print("mqtt published")
   print("sleep %s" % observerWait)
   # sleep time
