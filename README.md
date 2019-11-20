@@ -1,5 +1,5 @@
 [![Docker Pulls](https://img.shields.io/docker/pulls/glarfs/observerip-mqtt.svg)](https://hub.docker.com/r/glarfs/docker-observerip-mqtt/)
-[![license](https://img.shields.io/github/license/glarfs/docker-observerip-mqtt.svg)](https://github.com/glarfs/docker-observerip-mqtt/blob/maste
+[![license](https://img.shields.io/github/license/glarfs/docker-observerip-mqtt.svg)](https://github.com/glarfs/docker-observerip-mqtt/blob/master/LICENSE)
 # docker-observer-mqtt
 
 Scrapps the web of observer ip and publishes changes on mqtt
