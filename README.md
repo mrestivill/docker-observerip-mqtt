@@ -8,8 +8,14 @@ Discontinued: use [docker-oberverip-proxy-mqtt](https://github.com/glarfs/docker
 
 # Build
 
-```
+single build:
+```bash
 docker build -t glarfs/observerip-mqtt .
+```
+
+multiple architecture build:
+```bash
+docker buildx build -t glarfs/observerip-mqtt --platform=linux/arm,linux/arm64,linux/amd64 . --push
 ```
 
 # Run
